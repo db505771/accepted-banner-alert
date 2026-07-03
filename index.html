@@ -21,7 +21,7 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color: #0f1a2b; /* Matching the calendar's deep blue palette */
+  background-color: #0f1a2b; /* Deep blue background */
   color: white;
   font-family: 'Segoe UI', Arial, sans-serif;
 }
@@ -39,8 +39,8 @@ body {
 
 /* SYSTEM NOTIFICATION BANNER */
 .insightBanner {
-  background: #142235;
-  border: 1px solid #24384f;
+  background: #142235; /* Calendar's signature banner fill */
+  border: 1px solid #24384f; /* Calendar's inner borders */
   border-radius: 6px;
   padding: 4px 10px;
   display: flex;
@@ -49,7 +49,7 @@ body {
   animation: slideIn 0.4s ease-out;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   
-  /* Exact requested dimensions */
+  /* Dimensions */
   width: 398px;
   height: 41px;
   box-sizing: border-box;
@@ -60,22 +60,22 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Banner States */
+/* Banner States - Swapped out pure orange/purple highlights for cohesive calendar accent colors */
 .insightBanner.warning {
-  border-color: #f59e0b;
-  background: rgba(245, 158, 11, 0.08);
+  border-color: #ffb300; /* Muted yellow/amber notification color */
+  background: rgba(255, 179, 0, 0.06);
 }
 
 .insightBanner.hype {
-  border-color: #8b5cf6;
-  background: rgba(139, 92, 246, 0.08);
+  border-color: #3b82f6; /* Matching calendar primary bright blue accent */
+  background: rgba(59, 130, 246, 0.08);
 }
 
 .insightContent {
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 8px; /* Spaces title and description on a single line */
+  gap: 8px; 
   overflow: hidden;
   white-space: nowrap;
 }
@@ -86,14 +86,19 @@ body {
   flex-shrink: 0;
 }
 
-.insightBanner.warning .insightTitle { color: #f59e0b; }
-.insightBanner.hype .insightTitle { color: #a78bfa; }
+/* State-specific title typography matches */
+.insightBanner.warning .insightTitle { color: #ffb300; }
+.insightBanner.hype .insightTitle { color: #60a5fa; }
 
 .insightDesc {
   font-size: 11px;
-  color: #ccc;
+  color: #94a3b8; /* Swapped harsh gray for slate-blue description color */
   overflow: hidden;
-  text-overflow: ellipsis; /* Clean truncation if text runs long */
+  text-overflow: ellipsis; 
+}
+
+.insightDesc strong {
+  color: #ffffff; /* Bright emphasis highlights */
 }
 
 /* Skeleton Loading State styling */
@@ -283,8 +288,8 @@ function processInsights() {
 
     if ((streak >= 3 || totalMins >= 480) && match) {
       banner.className = "insightBanner hype";
-      bTitle.innerText = "Obsession Phase!";
-      bDesc.innerHTML = `Locked into <strong>${match.name}</strong>: ${Math.floor(totalMins / 60)}h played over a <strong>${streak}d streak</strong>!`;
+      bTitle.innerText = "In a phase";
+      bDesc.innerHTML = `on <strong>${match.name}</strong> with ${Math.floor(totalMins / 60)}h played with a <strong>${streak} day streak</strong>!`;
       banner.style.display = "flex";
       return;
     }
