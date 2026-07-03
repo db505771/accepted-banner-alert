@@ -21,9 +21,9 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color: #0f1a2b; /* Matching the calendar's deep blue palette */
+  background: #000000; /* Exact match */
   color: white;
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: Arial, sans-serif; /* Exact match */
 }
 
 /* PAGE WRAPPER */
@@ -39,15 +39,14 @@ body {
 
 /* SYSTEM NOTIFICATION BANNER */
 .insightBanner {
-  background: #142235; /* Calendar background color for containers */
-  border: 1px solid #24384f; /* Calendar border color */
+  background: #111; /* Exact match */
+  border: 1px solid #222; /* Exact match */
   border-radius: 6px;
   padding: 4px 10px;
   display: flex;
   align-items: center;
   transition: all 0.3s ease;
   animation: slideIn 0.4s ease-out;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   
   /* Exact requested dimensions */
   width: 398px;
@@ -60,22 +59,22 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Banner States matching palette rules */
+/* Banner States matching reference file precisely */
 .insightBanner.warning {
-  border-color: #ffb300; /* Cohesive calendar yellow accent */
-  background: rgba(255, 179, 0, 0.06);
+  border-color: #000000; /* Exact match */
+  background: rgba(245, 158, 11, 0.05); /* Exact match */
 }
 
 .insightBanner.hype {
-  border-color: #3b82f6; /* Cohesive calendar blue accent */
-  background: rgba(59, 130, 246, 0.08);
+  border-color: #000000; /* Exact match */
+  background: rgba(139, 92, 246, 0.05); /* Exact match */
 }
 
 .insightContent {
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 8px; /* Forces title and description inline horizontally */
+  gap: 8px; /* Force text horizontal scale */
   overflow: hidden;
   white-space: nowrap;
 }
@@ -86,23 +85,19 @@ body {
   flex-shrink: 0;
 }
 
-.insightBanner.warning .insightTitle { color: #ffb300; }
-.insightBanner.hype .insightTitle { color: #60a5fa; }
+.insightBanner.warning .insightTitle { color: #f59e0b; } /* Exact match */
+.insightBanner.hype .insightTitle { color: #a78bfa; } /* Exact match */
 
 .insightDesc {
   font-size: 11px;
-  color: #94a3b8; /* Slate tint for text block compatibility */
+  color: #ccc; /* Exact match */
   overflow: hidden;
   text-overflow: ellipsis; 
 }
 
+/* Keep strong targets white for visibility against black backdrop */
 .insightDesc strong {
-  color: #ffffff; /* Contrast highlights */
-}
-
-/* Skeleton Loading State styling */
-.loading {
-  opacity: 0.6;
+  color: #ffffff;
 }
 </style>
 </head>
@@ -121,14 +116,14 @@ body {
 </div>
 
 <script>
-// Combined data sources matching your runtime configuration
+// Live network configurations safely embedded
 const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTRqMqbCRZdfrIDgdkarWSH7iy3qhwhSCsfjAOcKVYO60m3smkMLMIT8hQWBdmrboORQJGsC3FwmVRq/pub?output=csv";
 const gameApi = "https://script.google.com/macros/s/AKfycbzcX9WsRdeEdz1ziWq4CbuUwa_WwxxUGPI1YtMTvYIHZGZ4cBus_p7qXdIIiFW_0hu_/exec";
 
 let csvRows = [];
 let gameData = [];
 
-// ⚡ Load instantly from local storage cache if it exists
+// Load instantly from local storage cache if it exists
 const cachedCsv = localStorage.getItem("roblox_csv_cache");
 const cachedGames = localStorage.getItem("roblox_games_cache");
 
@@ -137,9 +132,7 @@ if (cachedCsv && cachedGames) {
     csvRows = JSON.parse(cachedCsv);
     gameData = JSON.parse(cachedGames);
     processInsights();
-  } catch(e) {
-    console.warn("Cache parse failed, waiting for network fetch...");
-  }
+  } catch(e) {}
 }
 
 async function loadAllData() {
@@ -234,7 +227,7 @@ function processInsights() {
   const weekSessions = gameData.filter(g => {
     if (!g.date || g.minutes <= 0) return false;
     const diff = (new Date() - new Date(g.date)) / (1000 * 60 * 60 * 24);
-    return diff <= 7.0; // Captures rolling 7 days accurately
+    return diff <= 7.0; 
   });
 
   // Check 1: Game Hopping (ADHD Warning) - Tracked by the DAY
@@ -271,7 +264,7 @@ function processInsights() {
     }
   }
 
-  // Check 2: Hyperfocus Phase - Tracked by the WEEK (Active Streak >= 3 days OR Week Playtime > 8 hours)
+  // Check 2: Hyperfocus Phase - Tracked by the WEEK
   const weeklyAggregated = {};
   weekSessions.forEach(g => {
     if (!weeklyAggregated[g.id]) {
@@ -294,12 +287,11 @@ function processInsights() {
     }
   }
 
-  // Default state: Hide banner if there are no active warnings or hypes
   banner.style.display = "none";
 }
 
 loadAllData();
-setInterval(loadAllData, 60000); // Keep data fresh in background
+setInterval(loadAllData, 60000);
 </script>
 
 </body>
