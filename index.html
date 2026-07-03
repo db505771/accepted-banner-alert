@@ -21,7 +21,7 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color: #0f1a2b; /* Deep blue background */
+  background-color: #0f1a2b; /* Matching the calendar's deep blue palette */
   color: white;
   font-family: 'Segoe UI', Arial, sans-serif;
 }
@@ -39,8 +39,8 @@ body {
 
 /* SYSTEM NOTIFICATION BANNER */
 .insightBanner {
-  background: #142235; /* Calendar's signature banner fill */
-  border: 1px solid #24384f; /* Calendar's inner borders */
+  background: #142235; /* Calendar background color for containers */
+  border: 1px solid #24384f; /* Calendar border color */
   border-radius: 6px;
   padding: 4px 10px;
   display: flex;
@@ -49,7 +49,7 @@ body {
   animation: slideIn 0.4s ease-out;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   
-  /* Dimensions */
+  /* Exact requested dimensions */
   width: 398px;
   height: 41px;
   box-sizing: border-box;
@@ -60,14 +60,14 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Banner States - Swapped out pure orange/purple highlights for cohesive calendar accent colors */
+/* Banner States matching palette rules */
 .insightBanner.warning {
-  border-color: #ffb300; /* Muted yellow/amber notification color */
+  border-color: #ffb300; /* Cohesive calendar yellow accent */
   background: rgba(255, 179, 0, 0.06);
 }
 
 .insightBanner.hype {
-  border-color: #3b82f6; /* Matching calendar primary bright blue accent */
+  border-color: #3b82f6; /* Cohesive calendar blue accent */
   background: rgba(59, 130, 246, 0.08);
 }
 
@@ -75,7 +75,7 @@ body {
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 8px; 
+  gap: 8px; /* Forces title and description inline horizontally */
   overflow: hidden;
   white-space: nowrap;
 }
@@ -86,19 +86,18 @@ body {
   flex-shrink: 0;
 }
 
-/* State-specific title typography matches */
 .insightBanner.warning .insightTitle { color: #ffb300; }
 .insightBanner.hype .insightTitle { color: #60a5fa; }
 
 .insightDesc {
   font-size: 11px;
-  color: #94a3b8; /* Swapped harsh gray for slate-blue description color */
+  color: #94a3b8; /* Slate tint for text block compatibility */
   overflow: hidden;
   text-overflow: ellipsis; 
 }
 
 .insightDesc strong {
-  color: #ffffff; /* Bright emphasis highlights */
+  color: #ffffff; /* Contrast highlights */
 }
 
 /* Skeleton Loading State styling */
@@ -122,7 +121,7 @@ body {
 </div>
 
 <script>
-// Data endpoints from your calendar code
+// Combined data sources matching your runtime configuration
 const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTRqMqbCRZdfrIDgdkarWSH7iy3qhwhSCsfjAOcKVYO60m3smkMLMIT8hQWBdmrboORQJGsC3FwmVRq/pub?output=csv";
 const gameApi = "https://script.google.com/macros/s/AKfycbzcX9WsRdeEdz1ziWq4CbuUwa_WwxxUGPI1YtMTvYIHZGZ4cBus_p7qXdIIiFW_0hu_/exec";
 
@@ -264,8 +263,8 @@ function processInsights() {
       const match = gameData.find(g => g.id === id);
       if (stats.count >= 2 && (stats.totalMinutes / stats.count) <= 20 && match) {
         banner.className = "insightBanner warning";
-        bTitle.innerText = "Screen Break?";
-        bDesc.innerHTML = `You've repeatedly hopped on and off <strong>${match.name}</strong> today. Take a quick break!`;
+        bTitle.innerText = "Getting bored";
+        bDesc.innerHTML = `in <strong>${match.name}</strong>. Take a quick break!`;
         banner.style.display = "flex";
         return; 
       }
@@ -289,13 +288,13 @@ function processInsights() {
     if ((streak >= 3 || totalMins >= 480) && match) {
       banner.className = "insightBanner hype";
       bTitle.innerText = "In a phase";
-      bDesc.innerHTML = `on <strong>${match.name}</strong> with ${Math.floor(totalMins / 60)}h played with a <strong>${streak} day streak</strong>!`;
+      bDesc.innerHTML = `on <strong>${match.name}</strong> with ${Math.floor(totalMins / 60)}h played with a <strong>${streak} day</strong> streak!`;
       banner.style.display = "flex";
       return;
     }
   }
 
-  // Default state: Hide banner if there are no strong active warnings or hypes
+  // Default state: Hide banner if there are no active warnings or hypes
   banner.style.display = "none";
 }
 
