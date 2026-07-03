@@ -284,7 +284,7 @@ function processInsights() {
     for (const id in bounceCounter) {
       const stats = bounceCounter[id];
       const match = gameData.find(g => g.id === id);
-      if (stats.count >= 2 && (stats.totalMinutes / stats.count) <= 20 && match) {
+      if (stats.count >= 2 && (stats.totalMinutes / stats.count) <= 30 && match) {
         banner.className = "insightBanner warning";
         bTitle.innerText = "Getting bored";
         bDesc.innerHTML = `in <strong>${match.name}</strong>. Take a quick break!`;
@@ -321,7 +321,7 @@ function processInsights() {
 
   // Fallback state: If no patterns match, display a clean default status line
   banner.className = "insightBanner normal";
-  bTitle.innerText = "All quiet";
+  bTitle.innerText = "Good job!";
   bDesc.innerHTML = "No unusual patterns detected today.";
   banner.style.display = "flex";
   adjustFontSize();
