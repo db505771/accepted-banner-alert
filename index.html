@@ -71,6 +71,12 @@ body {
   background: rgba(139, 92, 246, 0.05);
 }
 
+/* Neutral state when no patterns are found */
+.insightBanner.normal {
+  border-color: #000000;
+  background: rgba(255, 255, 255, 0.02);
+}
+
 .insightContent {
   flex: 1;
   display: flex;
@@ -88,6 +94,7 @@ body {
 
 .insightBanner.warning .insightTitle { color: #f59e0b; }
 .insightBanner.hype .insightTitle { color: #a78bfa; }
+.insightBanner.normal .insightTitle { color: #94a3b8; } /* Slate tint for neutral title */
 
 .insightDesc {
   font-size: 11px;
@@ -216,17 +223,14 @@ function adjustFontSize() {
   const title = document.getElementById("insightTitle");
   const desc = document.getElementById("insightDesc");
 
-  // Reset to default starting font sizes before checking sizes
   title.style.fontSize = "11.5px";
   desc.style.fontSize = "11px";
 
-  // Calculate maximum available safe layout width internally
-  const maxAvailableWidth = container.clientWidth - 20; // Accounts for padding (10px left/right)
+  const maxAvailableWidth = container.clientWidth - 20; 
   
   let currentTitleSize = 11.5;
   let currentDescSize = 11;
 
-  // Reduce sizes incrementally until everything fits within the container bounding bounds
   while (content.scrollWidth > maxAvailableWidth && currentDescSize > 7) {
     currentTitleSize -= 0.25;
     currentDescSize -= 0.25;
@@ -285,7 +289,7 @@ function processInsights() {
         bTitle.innerText = "Getting bored";
         bDesc.innerHTML = `in <strong>${match.name}</strong>. Take a quick break!`;
         banner.style.display = "flex";
-        adjustFontSize(); // Run scaling script
+        adjustFontSize(); 
         return; 
       }
     }
@@ -310,12 +314,17 @@ function processInsights() {
       bTitle.innerText = "In a phase";
       bDesc.innerHTML = `on <strong>${match.name}</strong> with ${Math.floor(totalMins / 60)}h played with a <strong>${streak} day</strong> streak!`;
       banner.style.display = "flex";
-      adjustFontSize(); // Run scaling script
+      adjustFontSize(); 
       return;
     }
   }
 
-  banner.style.display = "none";
+  // Fallback state: If no patterns match, display a clean default status line
+  banner.className = "insightBanner normal";
+  bTitle.innerText = "All quiet";
+  bDesc.innerHTML = "No unusual patterns detected today.";
+  banner.style.display = "flex";
+  adjustFontSize();
 }
 
 loadAllData();
